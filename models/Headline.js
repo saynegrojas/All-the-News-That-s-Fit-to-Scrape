@@ -1,8 +1,13 @@
-//Headline mongoose schema associated with controller headlines
+//Headline mongoose schema associated with controller headline
+//=======================================================
+
+//Dependencies
 const mongoose = require('mongoose');
 
+//Instaniate Schema set to mongoose
 const Schema = mongoose.Schema;
 
+//headline schema 
 const headlineSchema = new Schema({
     headline: {
         type: String,
@@ -20,4 +25,5 @@ const headlineSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Headlines', headlineSchema);
+//export Headline model and headline schema as second parameter
+module.exports = mongoose.model('Headline', headlineSchema);

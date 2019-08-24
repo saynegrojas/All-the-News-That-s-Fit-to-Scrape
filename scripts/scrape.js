@@ -1,35 +1,54 @@
-//info cheerio needs to scrape from the news webpage
+//Scrape headline, summary from our website 
+//=======================================================
+
+//Dependencies
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-//PromoLarge-title need text inside href 
-//Link need link 
-//PromoLarge-description
+const url = 'https://www.sandiegouniontribune.com/';
+console.log(url);
 
-const scrape = (cb) => {
-    axios('https://www.sandiegouniontribune.com/', (err, res, body) => {
-        const $ = cheerio.load(body);
+//Scrape function that get all the info we want from a website
+//set to a function with a callback paramater
+const scrape = cb => {
+    console.log('test scrape');
 
+    //call axios and pass in website as first parameter
+    //second parameter is a function that take 3 parameter err, res, body
+    axios.get(`${url}`).then(res => {
+
+        //see if we get data back
+        //console.log(res);
+
+        //set cheerio.load and pass in body to $ as the selector
+        const $ = cheerio.load(res);
+
+        //an empty array where all the data we scrape from the website
         let articles = [];
 
-        $('.PromoSmall-wrapper').each((i, el) => {
-            let head = $(this).children('.PromoSmall-titleContainerDupe"').children('.PromoSmall-title').text().trim();
-            let des = $(this).children('.PromoSmall-content').children('.PromoSmall-description').text().trim();
+        //We scrape from parent to its children and get info and we want to get as text
+        //$('.PromoMedium-content').each((i, el) => {
+        let head = $('.PromoMedium-content').children('.PromoMedium-titleContainer').text().trim()
+        console.log(head);
 
-            if(head && des){
-                let headNeat = head.replace(/(\r\n|\n|\r|\t|\s+)/gm, " ").trim();
-                let desNeat = des.replace(/(\r\n|\n|\r|\t|\s+)/gm, " ").trim();
+        if (head && sum) {
+            let headNeat = head.replace(/(\r\n|\n|\r|\t|\s+)/gm, " ").trim();
+            let sumNeat = sum.replace(/(\r\n|\n|\r|\t|\s+)/gm, " ").trim();
 
-                let dataToAdd = {
-                    headlines: headNeat,
-                    description: desNeat
-                }
-
-                articles.push(dataToAdd);
+            //assigns headline, description to headNeat, desNeat
+            let dataToAdd = {
+                headline: headNeat,
+                summary: sumNeat
             }
-            cb(articles);
-        })
-    })
+            //Once we assign each one to its corresponding attributes
+            //push dataToAdd in articles array
+            articles.push(dataToAdd);
+        }
+        //callback articles 
+        cb(articles);
+        // });
+    });
 }
 
+//export scrape
 module.exports = scrape;

@@ -29,16 +29,15 @@ app.use(express.static(__dirname + '/public'));
 
 //routes
 //====================
-
 require('./config/routes')(app);
 
 //local mongodb headlines
 //====================
 
-const db = process.env.MONGO_URI || "mongodb://localhost/mongoHeadlines";
+const db = process.env.MONGO_URI;
 
 //connect mongoose to db
-mongoose.connect(db, (err) =>{
+mongoose.connect("mongodb://localhost/mongoHeadline", {useNewUrlParser: true}, (err) =>{
     if(err) throw err;
     console.log('mongoose connection successful');
     
@@ -50,4 +49,4 @@ mongoose.connect(db, (err) =>{
 app.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`);
     
-})
+});

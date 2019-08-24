@@ -1,52 +1,60 @@
-//Headlines news articles 
+//Headline news articles 
 //contain CRUD functionality(create read update delete)
+//=======================================================
 
 //Dependencies
-//bring scrape and createDate scripts
+//Bring scrape and createDate scripts
 const scrape = require('../scripts/scrape');
 const createDate = require('../scripts/date');
 
-//bring Headlines and Notes mongoose models
-const Headlines = require('../models/Headlines');
+//Bring Headline mongoose models
+const Headline = require('../models/Headline');
 
 //functionality delete, save..
 module.exports = {
-    //fetch will run the scrape function to grab all articles
-    //insert in Headlines collections
+    //Fetch will run the scrape function to grab all articles
+    //Insert in Headline collections
 
-    //run fetch, function with a callback parameter
+    //Run fetch, function with a callback parameter
     fetch: (cb) => {
-        //run scrape
+        //console.log('fetch');
+        
+        //Run scrape pass in a function with data as a parameter
         scrape( (data) => {
-            //set data to an instance of articles
+            console.log(data);
+            
+            //Set data to an instance of articles
             let articles = data;
-            //loop through the length of articles
+
+            //Loop through the length of articles
             for (let i = 0; i < articles.length; i++){
-                //run createDate function to insert date
+                //Run createDate function to insert date in articles
                 articles[i].date = createDate();
-                //set saved to false in all 
+                //Set saved to false in all articles we scrape
                 articles[i].saved = false;
             }
-            //insert into Headlines articles
-            //run mongodb and insert many articles, not in order
-            Headlines.collection.insertMany(articles, {ordered: false}, (err, found) =>{
-                //if one article gives error, will skip and continue
+            //Insert into Headline articles
+            //Run mongodb and insert many articles
+            //Second parameter is declaring articles does not go in need to go in order
+            //Third parameter is a function with an err, found passed in
+            Headline.collection.insertMany(articles, {ordered: false}, (err, found) => {
+                //If one article gives error, will skip and continue
                 cb(err, found);
             });
         });
     },
-    //delete
+    //Delete 
     delete: (query, cb) => {
-        Headlines.remove(query, cb);
+        Headline.remove(query, cb);
     },
-    //get all Headlines in the query out, sort decending order
+    //Get all Headline in the query out, sort decending order
     get: (query, cb) => {
-        Headlines.find(query).sort({_id: -1}).exec( (err, found) => {
+        Headline.find(query).sort({_id: -1}).exec( (err, found) => {
             cb(found);
-        }) 
+        }); 
     },
-    //update articles
+    //Update articles
     update: (query, cb) => {
-        Headlines.update({_id: query._id}, {$set: query}, {}, cb);
+        Headline.update({_id: query._id}, {$set: query}, {}, cb);
     }
 }
