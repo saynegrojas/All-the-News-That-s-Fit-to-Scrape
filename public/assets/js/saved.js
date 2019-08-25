@@ -38,14 +38,14 @@ $(document).ready( () =>{
             "div class='panel panel-default'>",
             "div class='btn btn-success save'>",
             "<h3>",
-            article.headline,
+            articles.headline,
             "<a class='btn btn-success save'>",
             "Save Article",
             "</a>",
             "<h3>",
             "</div>",
             "<div class='panel-body'>",
-            article.summary,
+            articles.summary,
             "</div>", 
             "</div>"
         ].join(''));

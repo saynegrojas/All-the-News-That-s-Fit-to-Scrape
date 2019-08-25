@@ -18,7 +18,7 @@ module.exports = function(app) {
 
     //Use fetch function from headline controllers and create api route to fetch all articles
     app.get('/api/fetch', (req, res) => {
-        //console.log('hello');
+        console.log('testing fetch route');
         
         //Go to headlines controller and run fetch pass in a function that take two parameters
         headlines.fetch((err,found) => {

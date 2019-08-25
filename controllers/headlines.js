@@ -17,11 +17,11 @@ module.exports = {
 
     //Run fetch, function with a callback parameter
     fetch: (cb) => {
-        //console.log('fetch');
+        // console.log('fetch from headlines');
         
         //Run scrape pass in a function with data as a parameter
         scrape( (data) => {
-            console.log(data);
+            console.log('hello');
             
             //Set data to an instance of articles
             let articles = data;

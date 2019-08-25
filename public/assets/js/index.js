@@ -11,6 +11,8 @@ $(document).ready( () => {
         //run ajax request for unsaved headlines
         $.get('/api/headlines?saved=false')
         .then(data => {
+            console.log(data);
+            
             //If there are headlines, render to page
             if(data && data.length) {
                 renderArticles(data);
@@ -26,7 +28,7 @@ $(document).ready( () => {
 
     //Function handles appending HTML containing articles data to the page
     const renderArticles = (articles) => {
-        console.log(articles);
+        //console.log(articles);
         //set articles to an empty array where we are passed json containing all articles in our db
         let articlePanels = [];
 
@@ -37,7 +39,9 @@ $(document).ready( () => {
     }
     
     //Function takes in a parameter which is a single object for article/headline
-    const createPanel = (articles) => {
+    const createPanel = (article) => {
+        console.log("from create panel");
+        
         //Creates a jquery element containing all of the formatted HTML for article panel
         let panel = $([
             "div class='panel panel-default'>",
@@ -57,6 +61,8 @@ $(document).ready( () => {
         //Attach the article's id to jquery element
         //Use this to figure out which article the user saves
         panel.data('_id', article._id);
+        console.log(panel);
+        
         //Return created panel jquery element
         return panel;
     }
@@ -104,9 +110,15 @@ $(document).ready( () => {
 
     //Function handles clicking any scrape new articles  buttons
     const handleArticleScrape = () => {
-        $.get('/api/fetch').then(data => {
+        console.log('test from handleArticleScrape');
+        
+        $.get('/api/fetch/').then(data => {
+            console.log('test fetch from index');
+            
             initPage();
             bootbox.alert("<h3 class='text-center m-top-80'>" + data.msg + "<h3>" );
         });
     }
+    $(document).on('click', '.scrape-new', handleArticleScrape);
+    
 });
